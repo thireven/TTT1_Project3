@@ -1,20 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/ttt1', { useNewUrlParser: true, useUnifiedTopology: true });
 
-const User = mongoose.model(
-  'users',
-  {
-    name: String,
-    grade: Number
-  }
-);
 
 router.get('/', async function(req, res, next) {
-  const users = await User.find();
-  res.json(users);
+  const { sort, dir } = req.query;
+
+  try {
+    let sortQuery = {};
+    if (sort) {
+      sortQuery[sort] = dir;
+    }
+
+    const users = await User.find().sort(sortQuery);
+    res.render('index', { title: 'Student Grade Table', message: message, users: users });
+  } catch (ex) {
+    res.status(500).send(ex.message);
+  }
+
 });
 
 router.post('/', async (req, res, next) => {

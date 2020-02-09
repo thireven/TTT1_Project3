@@ -2,10 +2,44 @@
 <html>
   <head>
     <title><%= title %></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <table class="table table-bordered table-striped" id="gradeTable">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="checkbox-col"><input class="form-control" type="checkbox" id="select-all" /></th>
+          <th scope="col" class="name-col sortable" data-field="name">
+            <a href="/?sort=name&dir=<%= dir * -1 %>">Name</a> <span class="sort-arrow"></span>
+          </th>
+          <th scope="col" class="grade-col sortable" data-field="grade">
+            <a href="/?sort=grade&dir=<%= dir * -1 %>">Grade</a> <span class="sort-arrow"></span>
+          </th>
+          <th scope="col" class="options-col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td class="checkbox-col"><input class="form-control row-checkbox" type="checkbox" /></td>
+            <td class="name-col"><span class="editable" data-field="name"><%= user.name %></span></td>
+            <td class="grade-col"><span class="editable" data-field="grade"><%= user.grade %></span></td>
+            <td class="options-col"><i class="fas fa-minus-circle delete-row-btn"></i></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="checkbox-col"><i class="fas fa-trash-alt" id="delete-all-checked-btn"></i></td>
+          <td><input type="text" form="studentForm" id="name-field" name="name" class="form-control" placeholder="Student Name" required /></td>
+          <td class="grade-col"><input type="number" form="studentForm" name="grade" class="form-control" placeholder="Grade" id="grade-field" required />
+            <button type="submit" form="studentForm" class="btn btn-success">+</button></td>
+          <td><span id="average"></span></td>
+        </tr>
+      </tfoot>
+    </table>
+    <form id="studentForm" method="POST" action="/"></form>
+
   </body>
 </html>
