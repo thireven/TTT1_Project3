@@ -36,7 +36,7 @@ describe('Users', function() {
                               .request(app)
                               .post('/api/users')
                               .send(newUser);
-      assert.equal(response.status, 201, 'Results should be empty');
+      assert.equal(response.status, 200, 'Results should be empty');
       assert.ownInclude(response.body, newUser);
     } catch (err) {
       throw err;
