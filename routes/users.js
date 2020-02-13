@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-
+const User = require('../models/Users');
 
 router.get('/', async function(req, res, next) {
   const { sort, dir } = req.query;
@@ -13,9 +12,9 @@ router.get('/', async function(req, res, next) {
     }
 
     const users = await User.find().sort(sortQuery);
-    res.render('index', { title: 'Student Grade Table', message: message, users: users });
+    res.json(users);
   } catch (ex) {
-    res.status(500).send(ex.message);
+    res.status(500).send(ex);
   }
 
 });
@@ -25,7 +24,7 @@ router.post('/', async (req, res, next) => {
 
   try {
     const newUserResult = await newUser.save();
-    res.json(newUserResult);
+    res.status(201).json(newUserResult);
   } catch (err) {
     next(err);
   }
