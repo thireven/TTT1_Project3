@@ -15,7 +15,7 @@ describe('Users', function() {
     // runs before all tests in this block
     await UserModel.remove({});
   });
-
+0
   it('Users db should be empty', async function() {
     try {
       const response = await chai.request(app).get('/api/users');
